@@ -46,7 +46,7 @@ const Login = () => {
     fetch(LOGIN_USER, options)
       .then((response) => response.json())
       .then((data) => {
-        console.log("JWT raw", data.token);
+        //console.log("JWT raw", data.token);
         if (data.token) {
           try {
             const decodedToken = decodeJwt(data.token);

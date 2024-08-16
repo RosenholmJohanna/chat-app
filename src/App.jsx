@@ -6,19 +6,21 @@ import store from "./store";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
 import Chat from "./components/Chat";
+import Header from "./components/Header";
 //import SideNav from "./components/SideNav";
 //import Register from "./components/Register";
 
 function App() {
   return (
     <Provider store={store}>
-    <Routes>
-      <Route path="/login" element={<Login />} />
+      <Header />
+      <Routes>
+        <Route path="/login" element={<Login />} />
 
-      <Route path="/messages" element={<Chat />} />
+        <Route path="/messages" element={<Chat />} />
 
-      <Route path="/profile" element={<Profile />} />
-    </Routes>
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
     </Provider>
   );
 }
