@@ -26,7 +26,7 @@ const Header = () => {
 export default Header;
 
 export const HeaderStyled = styled.header`
-  min-width: 1200px;
+  min-width: 400px;
   text-align: center;
   display: flex;
   justify-content: space-between;

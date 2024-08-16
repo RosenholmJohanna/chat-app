@@ -13,9 +13,14 @@ const Chat = () => {
   const user = useSelector(selectUser);
   const token = useSelector(selectAuthToken);
 
+  const handleConversationCreated = (newConversationId) => {
+    setSelectedConversationId(newConversationId);
+  }
+  console.log(selectedConversationId)
+
   return (
     <>
-      <Users />
+      <Users onConversationCreated={handleConversationCreated}/>
     </>
   );
 };
