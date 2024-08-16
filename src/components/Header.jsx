@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { selectUser } from "../authSlice";
+import Logout from "./Logout";
 
 const Header = () => {
   const user = useSelector(selectUser);
@@ -9,6 +10,7 @@ const Header = () => {
   return (
     <HeaderStyled>
       <HeaderText>Chatify</HeaderText>
+      <Logout />
 
       <Img>
         <img
