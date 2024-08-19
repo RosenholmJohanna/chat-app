@@ -11,6 +11,9 @@ import Header from "./components/Header";
 //import Register from "./components/Register";
 
 function App() {
+
+  console.log(sessionStorage)
+
   return (
     <Provider store={store}>
      <Header /> 
@@ -26,3 +29,4 @@ function App() {
 }
 
 export default App;
+

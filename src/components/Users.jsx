@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { selectUser, selectAuthToken } from "../authSlice";
 import { v4 as uuidv4 } from "uuid";
@@ -8,10 +9,12 @@ import { Button } from "./Logout";
 const GET_USERS = "https://chatify-api.up.railway.app/users";
 
 const Users = ({ onConversationCreated }) => {
-  const user = useSelector(selectUser); //console.log(user)
+  const user = useSelector(selectUser);         //console.log(user)
   const token = useSelector(selectAuthToken);
+
   const [allUsers, setAllUsers] = useState([]);
   const [myInvites, setMyInvites] = useState([]);
+
 
   const { data } = useFetch(GET_USERS, {
     headers: {
@@ -25,6 +28,7 @@ const Users = ({ onConversationCreated }) => {
         user.username.startsWith("johanna")
       );
       setAllUsers(filteredUsers);
+      //console.log(allUsers)
     }
   }, [data]);
 
@@ -56,9 +60,8 @@ const Users = ({ onConversationCreated }) => {
   };
 
   //***** DISPLAY MY INVITES ****** //
-  // if invite = null then set it to empty array
   useEffect(() => {
-    const invitesArray = user.invite ? JSON.parse(user.invite) : [];
+    const invitesArray = user.invite ? JSON.parse(user.invite) : []; // if invite = null then set it to empty array
     const invites = invitesArray.map((invite) => ({
       conversationId: invite.conversationId,
       username: invite.username,
@@ -72,37 +75,47 @@ const Users = ({ onConversationCreated }) => {
       <h2>Invites</h2>
       <ul>
         {myInvites?.map((invite, index) => (
-          <li key={index}>
+          <UserItem key={index}>
+             <img
+                
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "50%",
+                }}
+              />
             {invite.username}
             <Button
               onClick={() => onConversationCreated(invite.conversationId)}
             >
               Start Convo
             </Button>
-          </li>
+          </UserItem>
         ))}
       </ul>
 
       <div>
         <h2>All users</h2>
+        <input></input>
         <ul>
           {allUsers.map((user) => (
-            <li key={user.userId}>
-              {user.username}
-              {user.userId}
-              <img
+            <UserItem key={user.userId}>
+                <img
                 src={user.avatar}
                 style={{
                   width: "30px",
                   height: "30px",
                   borderRadius: "50%",
-                  border: "1px solid white",
+                  marginRight: "2%"
                 }}
               />
+              {user.username}
+              {user.userId}
+            
               <Button onClick={(event) => onSendInvite(event, user.userId)}>
                 Invite
               </Button>
-            </li>
+            </UserItem>
           ))}
         </ul>
       </div>
@@ -111,6 +124,14 @@ const Users = ({ onConversationCreated }) => {
 };
 
 export default Users;
+
+
+export const UserItem = styled.li`
+flex-direction: row;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
 
 // *** GET USERS ***
 // useEffect(() => {

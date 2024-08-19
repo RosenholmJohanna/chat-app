@@ -10,6 +10,7 @@ const Logout = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    sessionStorage.clear();
      navigate("/login"); 
   };
 
@@ -26,4 +27,5 @@ export const Button = styled.button`
  font-size: small;
  font-weight: 100;
  height: min-content;
+ margin-left: 2%;
 `;

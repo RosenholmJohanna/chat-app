@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
+//import { v4 as uuidv4 } from 'uuid';
 //import { selectAuthToken } from '../authSelector';
 import { selectAuthToken } from '../authSlice';
 import styled from 'styled-components';
@@ -13,7 +13,6 @@ const NewMessage = ({ addMessageToList, conversationId }) => {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-
 
     const options = {
       method: 'POST',
@@ -40,7 +39,7 @@ const NewMessage = ({ addMessageToList, conversationId }) => {
   };
 
   return (
-    <div>
+    <FormContainer>
       <form onSubmit={onFormSubmit}>
         <div>
           <input
@@ -52,12 +51,22 @@ const NewMessage = ({ addMessageToList, conversationId }) => {
         </div>
         <button type="submit">Send</button>
       </form>
-    </div>
+    </FormContainer>
   );
 };
 
 export default NewMessage;
 
+const FormContainer = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+position: absolute;
+bottom: 80px;
+  width: 50%;
+  /* padding: 20px; */
+  /* background-color: #F0EBE3; */
+`;
 
 // const [messages, setMessages] = useState([]);
 // const [textValue, setTextValue] = useState('')
