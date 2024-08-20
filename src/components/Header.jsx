@@ -19,6 +19,7 @@ const Header = () => {
           style={{ width: "70px", height: "70px", borderRadius: "100%" }}
         />
       </Img>
+       {/* <button onClick={() => methodDoesNotExist()}>Break the world</button>;  */}
     </HeaderStyled>
   );
 };

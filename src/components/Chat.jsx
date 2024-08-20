@@ -13,7 +13,7 @@ const Chat = () => {
   const [conversations, setConversations] = useState({});      // visar mina meddelanden i en konversation   //console.log("conversations", conversations);
   const [allConvoMsg, setAllConvoMsg] = useState({});  
   const [selectedConversationId, setSelectedConversationId] = useState(null);
-  const [messages, setMessages] = useState([]);                                 console.log('messages', )
+  const [messages, setMessages] = useState([]);                                 console.log('messages',messages, )
 
   const user = useSelector(selectUser);
   const token = useSelector(selectAuthToken);

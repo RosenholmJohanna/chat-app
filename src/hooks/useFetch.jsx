@@ -1,9 +1,33 @@
 import { useState, useEffect } from "react";
 
+// export const useFetch = (url, options) => {
+//   const [data, setData] = useState(() => {
+//     const cachedData = sessionStorage.getItem(url);
+//     return cachedData ? JSON.parse(cachedData) : null;
+//   });
+
+//   useEffect(() => {
+//     if (!data) {
+//       const fetchData = async () => {
+//         try {
+//           const response = await fetch(url, options);
+//           const json = await response.json();
+//           setData(json);
+//           sessionStorage.setItem(url, JSON.stringify(json));
+//         } catch (err) {
+//           console.error(err);
+//         }
+//       };
+//       fetchData();
+//     }
+//   }, [url, options, data]);
+
+//   return { data };
+// };
 
 export const useFetch = (url, options) => {
   const [data, setData] = useState(() => {
-    const cachedData = sessionStorage.getItem(url);
+    const cachedData = localStorage.getItem(url);
     return cachedData ? JSON.parse(cachedData) : null;
   });
 
@@ -14,44 +38,15 @@ export const useFetch = (url, options) => {
           const response = await fetch(url, options);
           const json = await response.json();
           setData(json);
-          sessionStorage.setItem(url, JSON.stringify(json)); 
-        } 
+          localStorage.setItem(url, JSON.stringify(json));
+        }
         catch (err) {
-          console.error(err);
-        } 
+          (err);
+        }
       };
       fetchData();
     }
   }, [url, options, data]);
 
-  
   return { data };
-  
 };
-
-// export const useFetch = (url, options) => {
-//   const [data, setData] = useState(() => {
-//     const cachedData = localStorage.getItem(url);
-//     return cachedData ? JSON.parse(cachedData) : null;
-//   });
-
-
-//   useEffect(() => {
-//     if (!data) {
-//       const fetchData = async () => {
-//         try {
-//           const response = await fetch(url, options);
-//           const json = await response.json();
-//           setData(json);
-//           localStorage.setItem(url, JSON.stringify(json));
-//         } 
-//         catch (err) {
-//           (err);
-//         } 
-//       };
-//       fetchData();
-//     }
-//   }, [url, options, data]);
-
-//   return { data };
-// };
