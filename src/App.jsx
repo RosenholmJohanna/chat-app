@@ -9,7 +9,7 @@ import Chat from "./components/Chat";
 import Header from "./components/Header";
 import * as Sentry from "@sentry/react";
 //import SideNav from "./components/SideNav";
-//import Register from "./components/Register";
+import Register from "./components/Register";
 
 // response.set('Document-Policy', 'js-profiling')
 
@@ -38,8 +38,9 @@ function App() {
     <Header  /> 
       <Routes>
        
+      <Route path="/register" element={<Register />} />
+
         <Route path="/login" element={<Login />} />
-        
 
         <Route path="/messages" element={<Chat />} />
 
