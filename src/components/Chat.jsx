@@ -5,14 +5,12 @@ import { selectUser, selectAuthToken } from "../authSlice";
 import Users from "./Users";
 import NewMessage from "./NewMessage";
 import { useFetch } from "../hooks/useFetch";
-//import { Button } from "./Logout";
 
 const GET_MESSAGES = "https://chatify-api.up.railway.app/messages";
 
 const Chat = () => {
-  const [conversations, setConversations] = useState({});      // visar mina meddelanden i en konversation   //console.log("conversations", conversations);
-  const [allConvoMsg, setAllConvoMsg] = useState({});  
-  const [selectedConversationId, setSelectedConversationId] = useState(null);
+  const [conversations, setConversations] = useState({});  console.log(conversations)    // visar mina meddelandeInfo per convoId. {conviId:[msgId, userId, text, conviId]}
+  const [selectedConversationId, setSelectedConversationId] = useState(null);// state byts när klickar olika i react dev tool
   const [messages, setMessages] = useState([]);                                 console.log('messages',messages, )
 
   const user = useSelector(selectUser);
@@ -61,7 +59,7 @@ const Chat = () => {
 
   useEffect(() => {
     if (conversationMessages) {
-      console.log(conversationMessages),
+      //console.log(conversationMessages),
       setMessages(conversationMessages);
      
     }
@@ -72,12 +70,12 @@ const Chat = () => {
   // creating conversation by invite sending convoId, or start convo from
   const handleConversationCreated = (newConversationId) => {
     setSelectedConversationId(newConversationId);
-    console.log("conversation created");
+    //console.log("conversation created");
   };
 
   // go to konversation
   const handleConversationClick = (conversationId) => {
-    console.log('go to convo', conversationId)
+    //console.log('go to convo', conversationId)
     setSelectedConversationId(conversationId);
   };
  // add latest message to message list
@@ -94,9 +92,9 @@ const Chat = () => {
         <>
           <h2>MESSAGES</h2>
           <UlItem>
-            {messages.map((message, index) => (
-               console.log(messages),
-              <MessageItem key={index}>
+            {messages.map((message, id) => (
+             //  console.log(messages),
+              <MessageItem key={id}>
                 <DeleteMsgButton>x</DeleteMsgButton>
                <TextBubble>
                 {message.text}
@@ -128,13 +126,13 @@ const Chat = () => {
       <h2>ONGOING CONVERSATIONS</h2>
       <ul>
         {Object.keys(conversations).map((conversationId) => (
-          console.log(conversations),
-          <div
+        //  console.log(conversations),
+          <li
             key={conversationId}
             onClick={() => handleConversationClick(conversationId)}
           >
             ConvoId: {conversationId.slice(-3)}
-          </div>
+          </li>
         ))}
       </ul>
       </ConversationsList>
@@ -215,21 +213,3 @@ margin-top:0;
  margin: 1%;
  width: 6%;
 `
-
-
-  // useEffect(() => {
-  //   if (selectedConversationId) {
-  //     setMessages([]); // clear messages state
-  //     console.log('clear messages state')
-  //   }
-  // }, [selectedConversationId]);
-
-    // [
-    //   {
-    //     "id": 2579,
-    //     "text": "Hej 3, tack för inbjudan/ j2",
-    //     "createdAt": "2024-08-19T14:42:57.000Z",
-    //     "userId": 374,
-    //     "conversationId": "dfc8a7e7-6453-4dbc-93c5-71f4e7b98427"
-    //   }
-    // ]

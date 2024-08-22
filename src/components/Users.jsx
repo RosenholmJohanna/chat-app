@@ -9,12 +9,11 @@ import { Button } from "./Logout";
 const GET_USERS = "https://chatify-api.up.railway.app/users";
 
 const Users = ({ onConversationCreated }) => {
-  const user = useSelector(selectUser);         //console.log(user)
+  const user = useSelector(selectUser); //console.log(user)
   const token = useSelector(selectAuthToken);
 
   const [allUsers, setAllUsers] = useState([]);
   const [myInvites, setMyInvites] = useState([]);
-
 
   const { data } = useFetch(GET_USERS, {
     headers: {
@@ -69,21 +68,19 @@ const Users = ({ onConversationCreated }) => {
     setMyInvites(invites);
   }, [user.invite]);
 
-
   return (
     <>
       <h2>Invites</h2>
       <ul>
         {myInvites?.map((invite, index) => (
           <UserItem key={index}>
-             <img
-                
-                style={{
-                  width: "30px",
-                  height: "30px",
-                  borderRadius: "50%",
-                }}
-              />
+            <img
+              style={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "50%",
+              }}
+            />
             {invite.username}
             <Button
               onClick={() => onConversationCreated(invite.conversationId)}
@@ -100,18 +97,18 @@ const Users = ({ onConversationCreated }) => {
         <ul>
           {allUsers.map((user) => (
             <UserItem key={user.userId}>
-                <img
+              <img
                 src={user.avatar}
                 style={{
                   width: "30px",
                   height: "30px",
                   borderRadius: "50%",
-                  marginRight: "2%"
+                  marginRight: "2%",
                 }}
               />
               {user.username}
               {user.userId}
-            
+
               <Button onClick={(event) => onSendInvite(event, user.userId)}>
                 Invite
               </Button>
@@ -125,40 +122,9 @@ const Users = ({ onConversationCreated }) => {
 
 export default Users;
 
-
 export const UserItem = styled.li`
-flex-direction: row;
+  flex-direction: row;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 `;
-
-// *** GET USERS ***
-// useEffect(() => {
-//   const fetchUsers = async () => {
-//     try {
-//       const response = await fetch(GET_USERS, {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       });
-//       const data = await response.json();
-//       const filteredUsers = data.filter((user) =>
-//         user.username.startsWith("johanna")
-//       );
-//       setAllUsers(filteredUsers);
-//     } catch (error) {
-//       console.error("cant fetch users:", error);
-//     }
-//   };
-//   fetchUsers();
-// }, []);
-
-// useEffect(() => {
-//   const invitesArray = JSON.parse(user.invite);
-//   const invites = invitesArray.map(invite => ({
-//     conversationId: invite.conversationId,
-//     username: invite.username
-//   }));
-//   setMyInvites(invites); //invitesData = object
-// }, []);

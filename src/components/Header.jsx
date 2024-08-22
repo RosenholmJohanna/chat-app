@@ -16,15 +16,14 @@ const Header = () => {
           alt="User Avatar"
           style={{ width: "70px", height: "70px", borderRadius: "100%" }}
         />
-         <p>{user.user}</p>
+        <p>{user.user}</p>
       </Img>
 
-      <Link to="/profile"><A>PROFILE</A></Link>
-      <Link to="/messages"><A>CHAT</A></Link>
-      <Link to="/login"><A>LOGIN</A></Link>
+      <StyledLink to="/profile">PROFILE</StyledLink>
+      <StyledLink to="/messages">CHAT</StyledLink>
+      <StyledLink to="/login">LOGIN</StyledLink>
       <Logout />
-     
-       {/* <button onClick={() => methodDoesNotExist()}>Break the world</button>;  */}
+      {/* <button onClick={() => methodDoesNotExist()}>Break the world</button>;  */}
     </HeaderStyled>
   );
 };
@@ -44,14 +43,14 @@ export const HeaderText = styled.h3`
 
 export const Img = styled.div`
   justify-content: flex-end;
-  
-  p{
+
+  p {
     font-size: 0%.8;
-  color: #c27b7b;
+    color: #c27b7b;
   }
 `;
 
-export const A = styled.a`
+export const StyledLink = styled(Link)`
   justify-content: flex-end;
   text-decoration: none;
   font-size: 1em;
@@ -60,5 +59,3 @@ export const A = styled.a`
   transition: 0.3s;
   font-weight: 400;
 `;
-
-

@@ -34,14 +34,18 @@ function App() {
 
   return (
     <Provider store={store}>
-     <Header  /> 
+    <BrowserRouter>
+    <Header  /> 
       <Routes>
+       
         <Route path="/login" element={<Login />} />
+        
 
         <Route path="/messages" element={<Chat />} />
 
         <Route path="/profile" element={<Profile />} />
       </Routes>
+      </BrowserRouter> 
     </Provider>
   );
 }
