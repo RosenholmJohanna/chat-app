@@ -39,8 +39,13 @@ const Register = () => {
 
     if (!username || !password || !email || !avatar) {
       setErrorMsg("All fields are required.");
+    
+      setTimeout(() => {
+        setErrorMsg(null);
+      }, 3000);
+    
       return;
-    } 
+    }
 
     const options = {
       method: "POST",

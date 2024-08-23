@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser, selectAuthToken, updateUserInfo } from "../authSlice";
 import styled from "styled-components";
+import AvatarPicker from "./AvatarPicker";
 
 const USER_UPDATE = "https://chatify-api.up.railway.app/user";
 
@@ -23,6 +24,13 @@ const UpdateUserProfile = () => {
     setUserInfo((prevState) => ({
       ...prevState,
       [name]: value,
+    }));
+  };
+
+  const setAvatar = (newAvatar) => {
+    setUserInfo((prevState) => ({
+      ...prevState,
+      avatar: newAvatar,
     }));
   };
 
@@ -59,7 +67,6 @@ const UpdateUserProfile = () => {
         throw new Error("network error");
       }
       const data = await response.json();
-      console.log("user updated successfully:", data);
       dispatch(updateUserInfo(updatedUser.updatedData));
 
       setIsEditing(false);
@@ -93,31 +100,22 @@ const UpdateUserProfile = () => {
                 required
               />
             </div>
+
             <div>
-              <label>Avatar URL:</label>
-              <input
-                type="text"
-                name="avatar"
-                value={userInfo.avatar}
-                onChange={handleInputChange}
-                required
-              />
+              <label>Avatar:</label>
+            <AvatarPicker avatar={userInfo.avatar} setAvatar={setAvatar} />
             </div>
             <button type="submit">Save & Update</button>
             <button type="button" onClick={() => setIsEditing(false)}>
               Cancel
             </button>
+
           </form>
         ) : (
           <div>
             <p>Username: {userInfo.user}</p>
             <p>Email: {userInfo.email}</p>
             <button onClick={() => setIsEditing(true)}>Edit Profile</button>
-            <img
-              src={userInfo.avatar}
-              alt="User Avatar"
-              style={{ width: "150px", height: "150px", borderRadius: "100%" }}
-            />
           </div>
         )}
       </EditContainer>
