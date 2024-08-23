@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { login } from "../authSlice";
+//import { useDispatch } from "react-redux";
+//import { login } from "../authSlice";
 import { StyledLink } from "./Header";
-//import styled from "styled-components";
+import AvatarPicker from "./AvatarPicker";
 
 const GET_CSRF_TOKEN = "https://chatify-api.up.railway.app/csrf";
 const REGISTER = "https://chatify-api.up.railway.app/auth/register";
@@ -15,10 +15,9 @@ const Register = () => {
   const [avatar, setAvatar] = useState("");
   const [token, setToken] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
-  
   const navigate = useNavigate();
 
-  //register - sen navigate login sida
+
 
 
   useEffect(() => {
@@ -28,14 +27,20 @@ const Register = () => {
       .then((res) => res.json())
       .then((data) => {
         setToken(data.csrfToken);
-        console.log(token)
+        console.log(data.csrfToken)
       })
       .catch((error) => console.error("error CSRF token:", error));
   }, []);
 
+
   const handleRegister = (event) => {
     event.preventDefault();
     setErrorMsg(null);
+
+    if (!username || !password || !email || !avatar) {
+      setErrorMsg("All fields are required.");
+      return;
+    } 
 
     const options = {
       method: "POST",
@@ -50,6 +55,7 @@ const Register = () => {
         csrfToken: token,
       }),
     };
+
     fetch(REGISTER, options)
       .then((response) => response.json())
       .then((data) => {
@@ -57,11 +63,11 @@ const Register = () => {
           try {
            console.log('try')
           } catch (error) {
-            console.error("error decoding JWT:", error);
+            console.error(error);
           }
           navigate("/login");
         } else {
-          console.log('else')
+          setErrorMsg('Registration failed')
         }
       })
       .catch((error) => {
@@ -100,12 +106,17 @@ const Register = () => {
           value={avatar}
           onChange={(e) => setAvatar(e.target.value)}
           placeholder="Avatar"
+          required
         />
+         <AvatarPicker avatar={avatar} setAvatar={setAvatar}/>
         <button onClick={handleRegister}>Register</button>
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>} 
       </div>
       <StyledLink to="/login">I allready have an account</StyledLink> 
+
+     
     </div>
+
   );
 };
 
