@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../authSlice";
+import { StyledLink } from "./Header";
 //import styled from "styled-components";
 
 const GET_CSRF_TOKEN = "https://chatify-api.up.railway.app/csrf";
-const REGISTER_GET_JWT = "https://chatify-api.up.railway.app/auth/token";
 const REGISTER = "https://chatify-api.up.railway.app/auth/register";
 
 const Register = () => {
@@ -17,8 +17,6 @@ const Register = () => {
   const [errorMsg, setErrorMsg] = useState(null);
   
   const navigate = useNavigate();
-  //const dispatch = useDispatch();
-
 
   //register - sen navigate login sida
 
@@ -81,18 +79,21 @@ const Register = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Username"
+          required
         />
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
+          required
         />
           <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
+          required
         />
         <input
           type="text"
@@ -103,9 +104,9 @@ const Register = () => {
         <button onClick={handleRegister}>Register</button>
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>} 
       </div>
+      <StyledLink to="/login">I allready have an account</StyledLink> 
     </div>
   );
 };
 
 export default Register;
-

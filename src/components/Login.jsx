@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../authSlice";
+import { StyledLink } from "./Header";
 import styled from "styled-components";
 
 const GET_CSRF_TOKEN = "https://chatify-api.up.railway.app/csrf";
@@ -112,6 +113,7 @@ const Login = () => {
         <button onClick={handleLogin}>Login</button>
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
       </div>
+      <StyledLink to="/register">Register new user account</StyledLink> 
     </div>
   );
 };

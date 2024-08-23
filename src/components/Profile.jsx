@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { selectUser } from "../authSlice";
 import UpdateUserProfile from "./UpdateUser";
+import DeleteUser from "./DeleteUser";
 
 
 const UserProfile = () => {
@@ -18,6 +19,7 @@ const UserProfile = () => {
         />
          <p>{user.user}</p>
          <UpdateUserProfile />
+         <DeleteUser />
       </div>
   );
 };
