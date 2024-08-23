@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
 const initialState = {
   jwtToken: sessionStorage.getItem('jwtToken') || '',
   user: JSON.parse(sessionStorage.getItem('user')) || '', 
@@ -9,6 +10,7 @@ const initialState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
+
   reducers: {
     login: (state, action) => {
       state.jwtToken = action.payload.token;
@@ -19,14 +21,23 @@ const authSlice = createSlice({
 
     logout: (state) => {
       state.jwtToken = '';
-      state.user = ''; 
+      state.user = 'null'; 
       sessionStorage.removeItem('jwtToken');
       sessionStorage.removeItem('user'); 
+    },
+    
+    updateUserInfo: (state, action) => {
+      console.log('Before update:', state.user);
+      state.user = {
+        ...state.user,
+        ...action.payload,
+      };
+      sessionStorage.setItem('user', JSON.stringify(state.user)); 
     },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, updateUserInfo } = authSlice.actions;
 
 // selectors
 export const selectAuthToken = (state) => state.auth.jwtToken;
