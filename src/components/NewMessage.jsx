@@ -7,12 +7,20 @@ import styled from 'styled-components';
 
 const POST_MESSAGE = "https://chatify-api.up.railway.app/messages";
 
+const sanitizeInput = (input) => {
+  const element = document.createElement('div');
+  element.innerText = input;
+  return element.innerHTML;
+};
+
 const NewMessage = ({ addMessageToList, conversationId }) => {
   const [message, setMessage] = useState('');
   const token = useSelector(selectAuthToken); 
 
   const onFormSubmit = (event) => {
     event.preventDefault();
+
+    const sanitizedMessage = sanitizeInput(message); 
 
     const options = {
       method: 'POST',
@@ -21,7 +29,7 @@ const NewMessage = ({ addMessageToList, conversationId }) => {
         'Authorization': `Bearer ${token}`, 
       },
       body: JSON.stringify({
-        text: message,
+        text: sanitizedMessage,
         conversationId: conversationId,
       }),
     };
@@ -31,7 +39,7 @@ const NewMessage = ({ addMessageToList, conversationId }) => {
       .then((data) => {
         console.log("posted message:", data); 
         if (data.latestMessage) {
-          addMessageToList(data.latestMessage); //  notify chat..
+          addMessageToList(data.latestMessage); 
         }
         setMessage('');
       })

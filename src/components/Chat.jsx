@@ -63,11 +63,15 @@ const Chat = () => {
                   key={message.id}
                   $isOwnMessage={message.userId === user.id}
                 >
+                   <DeleteMsg
+                    msgId={message.id}
+                    onMessageDeleted={handleMessageDeleted}
+                  />
                   <MessageImage
-                    $isNotOwnMessage={message.userId !== user.id}
+                    $isNotOwnMessage={message.userId === user.id}
                     $msgId={message.id}
                   >
-                    {message.userId === user.id ? (
+                    {message.userId == user.id ? (
                       <img
                         src={user.avatar}
                         alt="User Avatar"
@@ -89,10 +93,7 @@ const Chat = () => {
                   <CreatedAtText>
                     {new Date(message.createdAt).toDateString()}
                   </CreatedAtText>
-                  <DeleteMsg
-                    msgId={message.id}
-                    onMessageDeleted={handleMessageDeleted}
-                  />
+                 
                 </MessageItem>
               ))}
             </ul>
@@ -147,13 +148,14 @@ const ConversationWindow = styled.div`
 `;
 
 const TextBubble = styled.div`
+display: flex;
   text-align: left;
   font-size: 0.8em;
   max-width: 80%;
   padding: 5px;
   border-radius: 5px 5px 5px 5px;
-  background-color: ${(props) => (props.$isOwnMessage ? "#30333f" : "#60625d")};
-  color: #585555;
+  background-color: ${(props) => (props.$isOwnMessage ? "#928483" : "#6e795d")};
+  color: black;
   text-align: right;
 `;
 
@@ -161,10 +163,9 @@ const MessageImage = styled.div``;
 
 const MessageItem = styled.li`
   display: flex;
-  justify-content: ${(props) =>
-    props.$isOwnMessage ? "flex-end" : "flex-start"};
+  justify-content: ${(props) =>props.$isOwnMessage ? "flex-end" : "flex-start"};
   align-items: center;
-  width: 100%;
+  width:100%;
   padding: 5px;
 `;
 

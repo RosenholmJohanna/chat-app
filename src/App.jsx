@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import { Provider } from "react-redux";
 import store from "./store";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
 import Chat from "./components/Chat";
@@ -54,13 +55,25 @@ function App() {
               />
             }
           >
+            <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
-            <Route path="/login" element={<Login />} />
-
-            <Route path="/messages" element={<Chat />} />
-
-            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/messages"
+              element={
+                <ProtectedRoute>
+                  <Chat />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>

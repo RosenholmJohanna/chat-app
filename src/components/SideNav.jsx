@@ -14,7 +14,7 @@ const SideNav = (props) => {
 
       <StyledLink to="/profile">PROFILE</StyledLink>
       <StyledLink to="/messages">CHAT</StyledLink>
-      <StyledLink to="/login">LOGIN</StyledLink>
+      <StyledLink to="/">LOGIN</StyledLink>
       <Logout />
     </SideNavBar>
   );

@@ -9,7 +9,6 @@ const AvatarPicker = ({ avatar, setAvatar }) => {
   };
 
   return (
-    
       <AvatarContainer>
         <Form>
           {avatars.map((avatarUrl, index) => (
@@ -29,7 +28,6 @@ const AvatarPicker = ({ avatar, setAvatar }) => {
           ))}
         </Form>
       </AvatarContainer>
-    
   );
 };
 

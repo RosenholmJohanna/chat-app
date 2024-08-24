@@ -28,17 +28,15 @@ const Register = () => {
       .catch((error) => console.error("error CSRF token:", error));
   }, []);
 
-  const handleRegister = (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
     setErrorMsg(null);
 
     if (!username || !password || !email || !avatar) {
       setErrorMsg("All fields are required.");
-
       setTimeout(() => {
         setErrorMsg(null);
       }, 2000);
-
       return;
     }
 
@@ -56,23 +54,19 @@ const Register = () => {
       }),
     };
 
-    fetch(REGISTER, options)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data) {
-          try {
-            console.log("try");
-          } catch (error) {
-            console.error(error);
-          }
-          navigate("/login");
-        } else {
-          setErrorMsg("Registration failed");
-        }
-      })
-      .catch((error) => {
-        console.error("error during login:", error);
-      });
+    try {
+      const response = await fetch(REGISTER, options);
+      const data = await response.json();
+
+      if (response.ok) {
+        navigate("/");
+      } else {
+        setErrorMsg(data.error); 
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+      setErrorMsg("An error occurred during registration. Please try again.");
+    }
   };
 
   return (
@@ -100,6 +94,8 @@ const Register = () => {
           placeholder="Email"
           required
         />
+        <p>Pick avatar</p>
+        <AvatarPicker avatar={avatar} setAvatar={setAvatar} />
         <input
           type="text"
           value={avatar}
@@ -107,11 +103,10 @@ const Register = () => {
           placeholder="Avatar"
           required
         />
-        <AvatarPicker avatar={avatar} setAvatar={setAvatar} />
         <button onClick={handleRegister}>Register</button>
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
       </div>
-      <StyledLink to="/login">I allready have an account</StyledLink>
+      <StyledLink to="/">I already have an account</StyledLink>
     </LoginContainer>
   );
 };

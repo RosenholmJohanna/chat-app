@@ -74,13 +74,7 @@ const Users = ({ onConversationCreated }) => {
       <ul>
         {myInvites?.map((invite, index) => (
           <UserItem key={index}>
-            <img
-              style={{
-                width: "30px",
-                height: "30px",
-                borderRadius: "50%",
-              }}
-            />
+           <span>🪶</span>
             {invite.username}
             <Button
               onClick={() => onConversationCreated(invite.conversationId)}

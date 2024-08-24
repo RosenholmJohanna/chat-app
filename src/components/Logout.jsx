@@ -11,7 +11,8 @@ const Logout = () => {
   const handleLogout = () => {
     dispatch(logout());
     sessionStorage.clear();
-     navigate("/login"); 
+    localStorage.clear();
+     navigate("/"); 
   };
 
   return (
