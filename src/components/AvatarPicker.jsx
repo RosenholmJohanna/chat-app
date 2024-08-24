@@ -9,10 +9,11 @@ const AvatarPicker = ({ avatar, setAvatar }) => {
   };
 
   return (
-    <div>
+    
       <AvatarContainer>
-        <form>
+        <Form>
           {avatars.map((avatarUrl, index) => (
+            <AvatarImgContainer>
             <Label
               key={index}
               onClick={() => handleAvatarChange(avatarUrl)}
@@ -24,10 +25,11 @@ const AvatarPicker = ({ avatar, setAvatar }) => {
                 $isSelected={avatar === avatarUrl}
               />
             </Label>
+            </AvatarImgContainer>
           ))}
-        </form>
+        </Form>
       </AvatarContainer>
-    </div>
+    
   );
 };
 
@@ -35,13 +37,30 @@ export default AvatarPicker;
 
 const AvatarContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+ flex-direction: row;
   justify-content: center;
   margin: 0 auto;
+  width: auto;
+`;
+
+const Form = styled.form`
+  display: flex;
+ flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  min-width: 60%;
+`;
+
+const AvatarImgContainer = styled.div`
+  display: flex;
+ flex-direction: row;
+  justify-content: center;
+  width: 15%;
 `;
 
 const Label = styled.label`
-  margin-top: 3%;
+  margin-top: 2%;
   display: flex;
   flex-direction: column;
   align-items: center;

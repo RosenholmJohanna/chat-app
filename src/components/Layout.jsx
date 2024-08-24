@@ -22,15 +22,15 @@ export default Layout ;
 
  const AppContainer = styled.div`
    display: flex;
-   position: relative;
+   position: relative; 
+   margin: 0;
  `;
 
 const ButtonOpenSideNav = styled.button`
   position: absolute;
   top: 0;
-  left: 1px;
-  font-size: 20px;
-  background-color: #762222;
+  font-size: 1.2em;
+  background-color: #4a3b3b;
   color: white;
   border: none;
   padding: 10px;
@@ -41,5 +41,5 @@ const ButtonOpenSideNav = styled.button`
 const ContentContainer = styled.div`
   flex-grow: 1;
   padding: 16px;
-  margin-left: 200px;
+  /* margin-left: 200px; */
 `;

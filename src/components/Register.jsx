@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-//import { useDispatch } from "react-redux";
-//import { login } from "../authSlice";
+import { useNavigate } from "react-router-dom";
 import { StyledLink } from "./Header";
 import AvatarPicker from "./AvatarPicker";
+import { LoginContainer } from "./Login";
 
 const GET_CSRF_TOKEN = "https://chatify-api.up.railway.app/csrf";
 const REGISTER = "https://chatify-api.up.railway.app/auth/register";
@@ -17,9 +16,6 @@ const Register = () => {
   const [errorMsg, setErrorMsg] = useState(null);
   const navigate = useNavigate();
 
-
-
-
   useEffect(() => {
     fetch(GET_CSRF_TOKEN, {
       method: "PATCH",
@@ -27,11 +23,10 @@ const Register = () => {
       .then((res) => res.json())
       .then((data) => {
         setToken(data.csrfToken);
-        console.log(data.csrfToken)
+        console.log(data.csrfToken);
       })
       .catch((error) => console.error("error CSRF token:", error));
   }, []);
-
 
   const handleRegister = (event) => {
     event.preventDefault();
@@ -39,11 +34,11 @@ const Register = () => {
 
     if (!username || !password || !email || !avatar) {
       setErrorMsg("All fields are required.");
-    
+
       setTimeout(() => {
         setErrorMsg(null);
-      }, 3000);
-    
+      }, 2000);
+
       return;
     }
 
@@ -66,13 +61,13 @@ const Register = () => {
       .then((data) => {
         if (data) {
           try {
-           console.log('try')
+            console.log("try");
           } catch (error) {
             console.error(error);
           }
           navigate("/login");
         } else {
-          setErrorMsg('Registration failed')
+          setErrorMsg("Registration failed");
         }
       })
       .catch((error) => {
@@ -80,9 +75,8 @@ const Register = () => {
       });
   };
 
-
   return (
-    <div>
+    <LoginContainer>
       <h2>Register</h2>
       <div>
         <input
@@ -99,7 +93,7 @@ const Register = () => {
           placeholder="Password"
           required
         />
-          <input
+        <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -113,15 +107,12 @@ const Register = () => {
           placeholder="Avatar"
           required
         />
-         <AvatarPicker avatar={avatar} setAvatar={setAvatar}/>
+        <AvatarPicker avatar={avatar} setAvatar={setAvatar} />
         <button onClick={handleRegister}>Register</button>
-        {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>} 
+        {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
       </div>
-      <StyledLink to="/login">I allready have an account</StyledLink> 
-
-     
-    </div>
-
+      <StyledLink to="/login">I allready have an account</StyledLink>
+    </LoginContainer>
   );
 };
 

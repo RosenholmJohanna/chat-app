@@ -13,6 +13,8 @@ const SideNav = (props) => {
       <ButtonCloseSideNav onClick={props.closeNav}>X</ButtonCloseSideNav>
 
       <StyledLink to="/profile">PROFILE</StyledLink>
+      <StyledLink to="/messages">CHAT</StyledLink>
+      <StyledLink to="/login">LOGIN</StyledLink>
       <Logout />
     </SideNavBar>
   );
@@ -21,13 +23,12 @@ const SideNav = (props) => {
 export default SideNav;
 
 const SideNavBar = styled.div`
+color: white;
   position: absolute;
-  top: 20px;
   right: 70px;
-  font-size: 1.2em;
-
+  font-size: 1em;
   height: 100%;
-  width: 10px;
+  width: 5em;
   position: fixed;
   z-index: 1;
   top: 0;

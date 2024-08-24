@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../authSlice";
 import { StyledLink } from "./Header";
 import styled from "styled-components";
+import { EditContainer } from "./UpdateUser";
 
 const GET_CSRF_TOKEN = "https://chatify-api.up.railway.app/csrf";
 const LOGIN_USER = "https://chatify-api.up.railway.app/auth/token";
@@ -16,7 +17,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // JWT ? navigate/messages
+ 
 
   useEffect(() => {
     fetch(GET_CSRF_TOKEN, {
@@ -47,7 +48,6 @@ const Login = () => {
     fetch(LOGIN_USER, options)
       .then((response) => response.json())
       .then((data) => {
-        //console.log("JWT raw", data.token);
         if (data.token) {
           try {
             const decodedToken = decodeJwt(data.token);
@@ -93,7 +93,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <LoginContainer>
       <h2>Login</h2>
       <div>
         <input
@@ -110,12 +110,20 @@ const Login = () => {
           placeholder="Password"
           required
         />
-        <button onClick={handleLogin}>Login</button>
+        
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
       </div>
-      <StyledLink to="/register">Register new user account</StyledLink> 
-    </div>
+      <button onClick={handleLogin}>Login</button>
+      <StyledLink to="/register">Not a user?Register new user account</StyledLink> 
+    </LoginContainer>
   );
 };
 
 export default Login;
+
+export const LoginContainer = styled.div`
+ justify-content: center;
+ color:black;
+ font-size: 0.8em;
+ margin-top:5%;
+`

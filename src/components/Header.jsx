@@ -3,26 +3,30 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { selectUser } from "../authSlice";
-import Logout from "./Logout";
 
 const Header = () => {
   const user = useSelector(selectUser);
 
   return (
     <HeaderStyled>
-      <Img>
-        <img
-          src={user.avatar}
-          alt="User Avatar"
-          style={{ width: "70px", height: "70px", borderRadius: "100%" }}
-        />
-        <p>{user.user}</p>
-      </Img>
+      <HeaderText>
+        <h3>Chatify</h3>{" "}
+      </HeaderText>
+      <SubHeaderDiv>
+        <SubHeaderText>Welcome {user.user}</SubHeaderText>
+        <Image>
+          <img
+            src={user.avatar}
+            alt="User Avatar"
+            style={{
+              width: "45px",
+              height: "45px",
+              borderRadius: "50%",
+            }}
+          />
+        </Image>
+      </SubHeaderDiv>
 
-      <StyledLink to="/profile">PROFILE</StyledLink>
-      <StyledLink to="/messages">CHAT</StyledLink>
-      <StyledLink to="/login">LOGIN</StyledLink>
-      <Logout />
       {/* <button onClick={() => methodDoesNotExist()}>Break the world</button>;  */}
     </HeaderStyled>
   );
@@ -31,31 +35,44 @@ const Header = () => {
 export default Header;
 
 export const HeaderStyled = styled.header`
-  width: 100%;
-  text-align: center;
+  width: 95%;
   display: flex;
   justify-content: space-between;
-`;
-export const HeaderText = styled.h3`
-  font-weight: 200;
-  justify-content: flex-start;
+  color: black;
+  font-size: 0.8em;
+  padding: 1.5%;
 `;
 
-export const Img = styled.div`
+export const HeaderText = styled.div`
+  display: flex;
+  font-weight: 100;
+  justify-content: end;
+`;
+
+export const SubHeaderText = styled.div`
+  display: flex;
   justify-content: flex-end;
+  font-weight: 100;
+  margin-right: 2%;
+`;
 
-  p {
-    font-size: 0%.8;
-    color: #c27b7b;
-  }
+export const SubHeaderDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+export const Image = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 export const StyledLink = styled(Link)`
-  justify-content: flex-end;
   text-decoration: none;
   font-size: 1em;
-  color: #c27b7b;
+  color: white;
   display: block;
   transition: 0.3s;
-  font-weight: 400;
+  font-weight: 300;
+  margin-top: 1em;
 `;

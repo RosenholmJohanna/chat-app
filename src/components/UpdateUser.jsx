@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectUser, selectAuthToken, updateUserInfo } from "../authSlice";
 import styled from "styled-components";
 import AvatarPicker from "./AvatarPicker";
+import { Button } from "./Logout";
 
 const USER_UPDATE = "https://chatify-api.up.railway.app/user";
 
@@ -33,13 +34,6 @@ const UpdateUserProfile = () => {
       avatar: newAvatar,
     }));
   };
-
-  //   const handleUpdate = async (event) => {
-  //     event.preventDefault();
-  //     const updatedUser = {
-  //       ...userInfo,
-  //       [event.target.name]: event.target.value,
-  //     };
 
   const handleUpdate = async (event) => {
     event.preventDefault();
@@ -80,8 +74,8 @@ const UpdateUserProfile = () => {
       <EditContainer>
         {isEditing ? (
           <form onSubmit={handleUpdate}>
+            <label>Username:</label>
             <div>
-              <label>Username:</label>
               <input
                 type="text"
                 name="user"
@@ -90,8 +84,8 @@ const UpdateUserProfile = () => {
                 required
               />
             </div>
+            <label>Email:</label>
             <div>
-              <label>Email:</label>
               <input
                 type="email"
                 name="email"
@@ -103,19 +97,19 @@ const UpdateUserProfile = () => {
 
             <div>
               <label>Avatar:</label>
-            <AvatarPicker avatar={userInfo.avatar} setAvatar={setAvatar} />
+              <AvatarPicker avatar={userInfo.avatar} setAvatar={setAvatar} />
             </div>
-            <button type="submit">Save & Update</button>
-            <button type="button" onClick={() => setIsEditing(false)}>
-              Cancel
-            </button>
 
+            <button type="submit">Save & Update</button>
+            <Button type="button" onClick={() => setIsEditing(false)}>
+              Cancel
+            </Button>
           </form>
         ) : (
           <div>
             <p>Username: {userInfo.user}</p>
             <p>Email: {userInfo.email}</p>
-            <button onClick={() => setIsEditing(true)}>Edit Profile</button>
+            <Button onClick={() => setIsEditing(true)}>Edit Profile</Button>
           </div>
         )}
       </EditContainer>
@@ -125,6 +119,18 @@ const UpdateUserProfile = () => {
 
 export default UpdateUserProfile;
 
-const EditContainer = styled.div`
+export const EditContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
   color: black;
+
+  form {
+    width: 100%;
+    justify-content: center;
+  }
+
+  input {
+    width: 30%;
+  }
 `;

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { selectAuthToken, selectUser, logout } from "../authSlice";
 
+
 const DeleteUser = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -51,11 +52,19 @@ const DeleteUser = () => {
 
   return (
     <div>
-      <button onClick={onDeleteUser} disabled={isLoading}>
+      <DeleteButton onClick={onDeleteUser} disabled={isLoading}>
         {isLoading ? "Deleting..." : "Delete User"}
-      </button>
+      </DeleteButton>
     </div>
   );
 };
 
 export default DeleteUser;
+
+const DeleteButton = styled.button`
+padding: 0.1em;
+font-weight: 100;
+background-color: #932c07;
+`
+
+

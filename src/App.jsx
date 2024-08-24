@@ -30,7 +30,6 @@ import Layout from "./components/Layout";
 // });
 
 function App() {
-  //console.log(sessionStorage)
   const [sideNavWidth, setSideNavWidth] = useState("200px");
 
   const closeSidenav = () => {

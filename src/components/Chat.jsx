@@ -15,6 +15,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]); //console.log('messages',messages, )
 
   const token = useSelector(selectAuthToken);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     if (selectedConversationId) {
@@ -28,7 +29,7 @@ const Chat = () => {
           }
         );
         const data = await response.json();
-        setMessages(data); //sätter alla messages tillhörande selected konversationsid
+        setMessages(data);
       };
       fetchConversationMessages();
     }
@@ -46,7 +47,9 @@ const Chat = () => {
 
   // remove deleted message from list
   const handleMessageDeleted = (deletedMessageId) => {
-    setMessages(prevMessages => prevMessages.filter(message => message.id !== deletedMessageId));
+    setMessages((prevMessages) =>
+      prevMessages.filter((message) => message.id !== deletedMessageId)
+    );
   };
 
   return (
@@ -54,15 +57,42 @@ const Chat = () => {
       <ConversationWindow>
         {selectedConversationId ? (
           <>
-            <h2>Convo Messages</h2>
             <ul>
               {messages.map((message) => (
-                <MessageItem key={message.id}>
-                  <TextBubble>
+                <MessageItem
+                  key={message.id}
+                  $isOwnMessage={message.userId === user.id}
+                >
+                  <MessageImage
+                    $isNotOwnMessage={message.userId !== user.id}
+                    $msgId={message.id}
+                  >
+                    {message.userId === user.id ? (
+                      <img
+                        src={user.avatar}
+                        alt="User Avatar"
+                        style={{
+                          width: "25px",
+                          height: "25px",
+                          borderRadius: "50%",
+                        }}
+                      />
+                    ) : (
+                      <span>🪶</span>
+                    )}
+                  </MessageImage>
+
+                  <TextBubble $isOwnMessage={message.userId === user.id}>
                     {message.text}
                     {message.userId}
                   </TextBubble>
-                  <DeleteMsg msgId={message.id} onMessageDeleted={handleMessageDeleted} />
+                  <CreatedAtText>
+                    {new Date(message.createdAt).toDateString()}
+                  </CreatedAtText>
+                  <DeleteMsg
+                    msgId={message.id}
+                    onMessageDeleted={handleMessageDeleted}
+                  />
                 </MessageItem>
               ))}
             </ul>
@@ -122,29 +152,20 @@ const TextBubble = styled.div`
   max-width: 80%;
   padding: 5px;
   border-radius: 5px 5px 5px 5px;
-  background-color: #ddc6c6;
+  background-color: ${(props) => (props.$isOwnMessage ? "#30333f" : "#60625d")};
   color: #585555;
   text-align: right;
 `;
 
+const MessageImage = styled.div``;
+
 const MessageItem = styled.li`
   display: flex;
-  justify-content: right;
+  justify-content: ${(props) =>
+    props.$isOwnMessage ? "flex-end" : "flex-start"};
   align-items: center;
   width: 100%;
   padding: 5px;
-`;
-
-const UlItem = styled.ul`
-  width: 100%;
-`;
-
-const DeleteMsgButton = styled.button`
-  background-color: transparent;
-  width: min-content;
-  margin: 0;
-  padding: 3px;
-  color: grey;
 `;
 
 export const CreatedAtText = styled.p`
@@ -156,107 +177,3 @@ export const CreatedAtText = styled.p`
   margin: 1%;
   width: 6%;
 `;
-
-{
-  /* <ConversationsList>
-<Users onConversationCreated={handleConversationCreated} />
-
-<h2>ONGOING CONVERSATIONS</h2>
-<ul>
-  {Object.keys(conversations).map((conversationId) => (
-  //  console.log(conversations),
-    <li
-      key={conversationId}
-      onClick={() => handleConversationClick(conversationId)}
-    >
-      ConvoId: {conversationId.slice(-3)}
-    </li>
-  ))}
-</ul>
-</ConversationsList>
-</ChatContainer>
-);
-}; */
-}
-
-{
-  /* <ChatContainer className="chatcontainer">
-<ConversationWindow>
-{selectedConversationId ? (
-  <>
-    <h2>MESSAGES</h2>
-    <UlItem>
-      {messages.map((message, id) => (
-        <MessageItem key={id}>
-          <DeleteMsgButton>x</DeleteMsgButton>
-         <TextBubble>
-          {message.text}
-          {message.userId}
-          </TextBubble> 
-          <CreatedAtText>{new Date(message.createdAt).toDateString()}</CreatedAtText> 
-          <img
-            src={user.avatar}
-            alt="User Avatar"
-            style={{ width: "25px", height: "25px", borderRadius: "50%" }}
-          />
-        </MessageItem>
-      ))}
-    </UlItem>
-    <NewMessage
-      addMessageToList={addMessageToList}
-      conversationId={selectedConversationId}
-    />
-  </>
-) : (
-  <h2>Select conversation to view messages</h2>
-)}
-</ConversationWindow> */
-}
-
-// const { data: fetchedMessages } = useFetch(GET_MESSAGES, {
-//   headers: {
-//     Authorization: `Bearer ${token}`,
-//   },
-// });
-
-// useEffect(() => {
-//   if (fetchedMessages) {
-//     setMessages(fetchedMessages);
-//     const groupedConversations = groupConversations(fetchedMessages);
-//     setConversations(groupedConversations);
-//   }
-// }, [fetchedMessages]);
-
-// // group messages based on convoId
-// const groupConversations = (messages) => {
-//   return messages.reduce((acc, message) => {
-//     const { conversationId } = message;
-//     if (!acc[conversationId]) {
-//       acc[conversationId] = [];
-//     }
-//     acc[conversationId].push(message);
-//     return acc;
-//   }, {});
-// };
-
-// useEffect(() => {
-//   if (conversationMessages) {
-//     setMessages(conversationMessages);
-//   }
-// }, [conversationMessages]);
-
-// // go to konversation
-// const handleConversationClick = (conversationId) => {
-//   //console.log('go to convo', conversationId)
-//   setSelectedConversationId(conversationId);
-// };
-
-//  // GET CONVO MESSAGES
-//  const { data: conversationMessages } = useFetch(
-//   selectedConversationId ? `${GET_MESSAGES}?conversationId=${selectedConversationId}` : null,
-//   {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   }
-// );
