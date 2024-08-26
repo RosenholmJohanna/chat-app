@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-//import { v4 as uuidv4 } from 'uuid';
-//import { selectAuthToken } from '../authSelector';
-import { selectAuthToken } from '../authSlice';
+import { selectAuthToken, selectUser } from '../authSlice';
 import styled from 'styled-components';
 import { POST_MESSAGE } from '../utils/api';
 
@@ -18,6 +16,7 @@ const NewMessage = ({ addMessageToList, conversationId }) => {
   const [message, setMessage] = useState('');
   const [serverMsg, setServerMsg] = useState('');
   const token = useSelector(selectAuthToken); 
+  const user = useSelector(selectUser); 
 
   const onFormSubmit = (event) => {
     event.preventDefault();
@@ -41,7 +40,13 @@ const NewMessage = ({ addMessageToList, conversationId }) => {
       .then((data) => {
         console.log("posted message:", data); 
         if (data.latestMessage) {
-          addMessageToList(data.latestMessage); 
+          const messageWithUser = {
+            ...data.latestMessage,
+            userId: user.id,   
+            avatar: user.avatar,  
+          };
+          //addMessageToList(data.latestMessage); 
+          addMessageToList(messageWithUser);
           setServerMsg(data.message); 
         }
         setMessage('');
