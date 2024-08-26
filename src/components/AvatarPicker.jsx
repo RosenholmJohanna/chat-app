@@ -9,25 +9,24 @@ const AvatarPicker = ({ avatar, setAvatar }) => {
   };
 
   return (
-      <AvatarContainer>
-        <Form>
-          {avatars.map((avatarUrl, index) => (
-            <AvatarImgContainer>
-            <Label
-              key={index}
-              onClick={() => handleAvatarChange(avatarUrl)}
+    <AvatarContainer>
+    <Form>
+      {avatars.map((avatarUrl) => (
+        <AvatarImgContainer key={avatarUrl}> 
+          <Label
+            onClick={() => handleAvatarChange(avatarUrl)}
+            $isSelected={avatar === avatarUrl}
+          >
+            <AvatarImg
+              src={avatarUrl}
+              alt={`Avatar ${avatarUrl}`}
               $isSelected={avatar === avatarUrl}
-            >
-              <AvatarImg
-                src={avatarUrl}
-                alt={`Avatar ${index + 1}`}
-                $isSelected={avatar === avatarUrl}
-              />
-            </Label>
-            </AvatarImgContainer>
-          ))}
-        </Form>
-      </AvatarContainer>
+            />
+          </Label>
+        </AvatarImgContainer>
+      ))}
+    </Form>
+  </AvatarContainer>
   );
 };
 

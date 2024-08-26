@@ -2,7 +2,7 @@ const BASE_URL = "https://chatify-api.up.railway.app";
 
 export const GET_CSRF_TOKEN = `${BASE_URL}/csrf`;
 export const LOGIN_USER = `${BASE_URL}/auth/token`;
-export const REGISTER_USER  = `${BASE_URL}/register`;
+export const REGISTER_USER  = `${BASE_URL}/auth/register`;
 
 export const GET_USERS = `${BASE_URL}/users`;
 export const GET_USER = (slug) => `${BASE_URL}/users/${slug}`;

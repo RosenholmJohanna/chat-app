@@ -6,8 +6,6 @@ import { LoginContainer } from "./Login";
 import { GET_CSRF_TOKEN, REGISTER_USER } from "../utils/api";
 
 
-
-
 const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -56,8 +54,10 @@ const Register = () => {
     };
 
     try {
-      const response = await fetch(REGISTER_USER, options);
+      const response = await fetch(REGISTER_USER, options); 
       const data = await response.json();
+
+      console.log("Registration response:", data);
 
       if (response.ok) {
         navigate("/");
@@ -65,7 +65,6 @@ const Register = () => {
         setErrorMsg(data.error); 
       }
     } catch (error) {
-      console.error("Error during registration:", error);
       setErrorMsg("An error occurred during registration. Please try again.");
     }
   };
