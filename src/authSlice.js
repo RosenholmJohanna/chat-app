@@ -24,6 +24,9 @@ const authSlice = createSlice({
       state.user = 'null'; 
       sessionStorage.removeItem('jwtToken');
       sessionStorage.removeItem('user'); 
+      
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('user'); 
     },
     
     updateUserInfo: (state, action) => {

@@ -5,15 +5,19 @@ import { selectUser, selectAuthToken } from "../authSlice";
 import { v4 as uuidv4 } from "uuid";
 import { useFetch } from "../hooks/useFetch";
 import { Button } from "./Logout";
+import { GET_USERS, INVITE_USER } from "../utils/api";
+//import fetchConversations from "./fetchConversations";
 
-const GET_USERS = "https://chatify-api.up.railway.app/users";
+
 
 const Users = ({ onConversationCreated }) => {
-  const user = useSelector(selectUser); //console.log(user)
+  const user = useSelector(selectUser); 
   const token = useSelector(selectAuthToken);
 
   const [allUsers, setAllUsers] = useState([]);
   const [myInvites, setMyInvites] = useState([]);
+
+
 
   const { data } = useFetch(GET_USERS, {
     headers: {
@@ -27,11 +31,10 @@ const Users = ({ onConversationCreated }) => {
         user.username.startsWith("johanna")
       );
       setAllUsers(filteredUsers);
-      //console.log(allUsers)
     }
   }, [data]);
 
-  // *** SEND INVITES ** //
+  //SEND INVITES 
   const onSendInvite = (event, userId) => {
     event.preventDefault();
     const newConversationId = uuidv4();
@@ -46,19 +49,17 @@ const Users = ({ onConversationCreated }) => {
         conversationId: newConversationId,
       }),
     };
-
-    fetch(`https://chatify-api.up.railway.app/invite/${userId}`, options)
+    fetch(INVITE_USER(userId), options)
       .then((res) => res.json())
       .then((data) => {
         if (data) {
-          //console.log(data)
           onConversationCreated(newConversationId);
         }
       })
       .catch((error) => console.error("error:", error));
   };
 
-  //***** DISPLAY MY INVITES ****** //
+  // DISPLAY MY INVITES 
   useEffect(() => {
     const invitesArray = user.invite ? JSON.parse(user.invite) : []; // if invite = null then set it to empty array
     const invites = invitesArray.map((invite) => ({
@@ -72,14 +73,14 @@ const Users = ({ onConversationCreated }) => {
     <>
       <h2>Invites</h2>
       <ul>
-        {myInvites?.map((invite, index) => (
+        {myInvites && myInvites.map((invite, index) => (
           <UserItem key={index}>
            <span>🪶</span>
             {invite.username}
             <Button
               onClick={() => onConversationCreated(invite.conversationId)}
             >
-              Start Convo
+              Chat
             </Button>
           </UserItem>
         ))}
@@ -120,5 +121,6 @@ export const UserItem = styled.li`
   flex-direction: row;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  margin-bottom: 2%;
+  justify-content: space-between;
 `;

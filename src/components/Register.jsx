@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { StyledLink } from "./Header";
 import AvatarPicker from "./AvatarPicker";
 import { LoginContainer } from "./Login";
+import { GET_CSRF_TOKEN, REGISTER_USER } from "../utils/api";
 
-const GET_CSRF_TOKEN = "https://chatify-api.up.railway.app/csrf";
-const REGISTER = "https://chatify-api.up.railway.app/auth/register";
+
+
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -55,7 +56,7 @@ const Register = () => {
     };
 
     try {
-      const response = await fetch(REGISTER, options);
+      const response = await fetch(REGISTER_USER, options);
       const data = await response.json();
 
       if (response.ok) {

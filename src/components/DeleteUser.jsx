@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 //import { useNavigate } from "react-router-dom"; --> handle it in protected route
 import styled from "styled-components";
 import { selectAuthToken, selectUser, logout } from "../authSlice";
+import { DELETE_USER } from "../utils/api";
 
 
 const DeleteUser = () => {
@@ -33,7 +34,7 @@ const DeleteUser = () => {
 
     try {
       const response = await fetch(
-        `https://chatify-api.up.railway.app/users/${id}`,
+        DELETE_USER(id),
         options
       );
       if (!response.ok) {

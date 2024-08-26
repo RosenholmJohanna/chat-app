@@ -4,8 +4,9 @@ import { useSelector } from 'react-redux';
 //import { selectAuthToken } from '../authSelector';
 import { selectAuthToken } from '../authSlice';
 import styled from 'styled-components';
+import { POST_MESSAGE } from '../utils/api';
 
-const POST_MESSAGE = "https://chatify-api.up.railway.app/messages";
+
 
 const sanitizeInput = (input) => {
   const element = document.createElement('div');
@@ -15,6 +16,7 @@ const sanitizeInput = (input) => {
 
 const NewMessage = ({ addMessageToList, conversationId }) => {
   const [message, setMessage] = useState('');
+  const [serverMsg, setServerMsg] = useState('');
   const token = useSelector(selectAuthToken); 
 
   const onFormSubmit = (event) => {
@@ -40,6 +42,7 @@ const NewMessage = ({ addMessageToList, conversationId }) => {
         console.log("posted message:", data); 
         if (data.latestMessage) {
           addMessageToList(data.latestMessage); 
+          setServerMsg(data.message); 
         }
         setMessage('');
       })
@@ -58,6 +61,7 @@ const NewMessage = ({ addMessageToList, conversationId }) => {
           />
         </div>
         <button type="submit">Send</button>
+        {serverMsg && <p style={{ color: "green" }}>{serverMsg}</p>}
       </form>
     </FormContainer>
   );
@@ -72,47 +76,4 @@ justify-content: flex-start;
 position: absolute;
 bottom: 80px;
   width: 50%;
-  /* padding: 20px; */
-  /* background-color: #F0EBE3; */
 `;
-
-
-
-// const [messages, setMessages] = useState([]);
-// const [textValue, setTextValue] = useState('')
-
-// useEffect(() => {
-//     const savedMessages = JSON.parse(localStorage.getItem('messages'))
-//     if (savedMessages !== null) {
-//         setTextMessages(savedMessages)
-//     }
-// }, []);
-
-// useEffect(() => {
-//         localStorage.getItem('messages') // Doesn't load the stored data
-//       }, []);
-
-// const sendMessage = (e) => {
-//         e.preventDefault();
-    
-//         if (textValue != "") {
-
-//           const newData = []
-//           newData.push([...textMessages, textValue])
-//           setTextMessages([...textMessages, textValue]);
-//           localStorage.setItem('messages', JSON.stringify(newData))
-
-//           setTextValue("");
-
-//         } else {
-//           return;
-//         }
-//       };
-
-// return (
-// <>
-// <button type="submit" onClick={sendMessage}>
-//             Send Message
-// </button>
-// </>
-// )

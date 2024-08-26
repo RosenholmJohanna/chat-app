@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../authSlice";
+import { decodeJwt } from "../utils/JwtDecode";
 import { StyledLink } from "./Header";
 import styled from "styled-components";
-import { EditContainer } from "./UpdateUser";
+import { GET_CSRF_TOKEN, LOGIN_USER } from "../utils/api";
 
-const GET_CSRF_TOKEN = "https://chatify-api.up.railway.app/csrf";
-const LOGIN_USER = "https://chatify-api.up.railway.app/auth/token";
+
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -45,6 +45,7 @@ const Login = () => {
         csrfToken: token,
       }),
     };
+
     fetch(LOGIN_USER, options)
       .then((response) => response.json())
       .then((data) => {
@@ -61,12 +62,13 @@ const Login = () => {
           } catch (error) {
             console.error("error decoding JWT:", error);
           }
-          navigate("/messages");
+          if (token) {
+            navigate("/messages");
+          }
         } else {
           setErrorMsg("Invalid username or password");
           setPassword("");
           setUsername("");
-          //data.message, error.message
         }
       })
       .catch((error) => {
@@ -74,23 +76,6 @@ const Login = () => {
       });
   };
 
-  const decodeJwt = (token) => {
-    try {
-      const base64Url = token.split(".")[1];
-      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split("")
-          .map((c) => {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join("")
-      );
-      return JSON.parse(jsonPayload);
-    } catch (error) {
-      throw new Error("invalid token");
-    }
-  };
 
   return (
     <LoginContainer>
@@ -110,7 +95,6 @@ const Login = () => {
           placeholder="Password"
           required
         />
-        
         {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
       </div>
       <button onClick={handleLogin}>Login</button>
@@ -125,5 +109,4 @@ export const LoginContainer = styled.div`
  justify-content: center;
  color:black;
  font-size: 0.8em;
- margin-top:5%;
 `

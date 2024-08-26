@@ -6,22 +6,23 @@ import Users from "./Users";
 import NewMessage from "./NewMessage";
 //import { useFetch } from "../hooks/useFetch";
 import DeleteMsg from "./DeleteMessage";
+import SentInvites from "./MyConversations";
+import { GET_MESSAGES } from "../utils/api";
 
-const GET_MESSAGES = "https://chatify-api.up.railway.app/messages";
+
 
 const Chat = () => {
-  // const [conversations, setConversations] = useState({});  console.log(conversations)    // visar mina meddelandeInfo per convoId. {conviId:[msgId, userId, text, conviId]}
   const [selectedConversationId, setSelectedConversationId] = useState(null);
-  const [messages, setMessages] = useState([]); //console.log('messages',messages, )
+  const [messages, setMessages] = useState([]); 
 
   const token = useSelector(selectAuthToken);
   const user = useSelector(selectUser);
 
   useEffect(() => {
+
     if (selectedConversationId) {
       const fetchConversationMessages = async () => {
-        const response = await fetch(
-          `${GET_MESSAGES}?conversationId=${selectedConversationId}`,
+        const response = await fetch(`${GET_MESSAGES}?conversationId=${selectedConversationId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -35,14 +36,9 @@ const Chat = () => {
     }
   }, [selectedConversationId]);
 
-  // creating conversation by invite sending convoId, or start convo from
+  // creating conversation by invite sending convoId, or start chat from invites
   const handleConversationCreated = (newConversationId) => {
     setSelectedConversationId(newConversationId);
-  };
-
-  // add latest message to message list
-  const addMessageToList = (newMessage) => {
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
   };
 
   // remove deleted message from list
@@ -93,14 +89,14 @@ const Chat = () => {
                   <CreatedAtText>
                     {new Date(message.createdAt).toDateString()}
                   </CreatedAtText>
-                 
                 </MessageItem>
               ))}
             </ul>
-            <NewMessage
-              addMessageToList={addMessageToList}
-              conversationId={selectedConversationId}
-            />
+              <NewMessage
+              addMessageToList={(newMessage) =>
+              setMessages((prevMessages) => [...prevMessages, newMessage])
+            }
+            conversationId={selectedConversationId} />
           </>
         ) : (
           <p>Select conversation to view messages</p>
@@ -108,6 +104,7 @@ const Chat = () => {
       </ConversationWindow>
 
       <ConversationsList>
+      <SentInvites onConversationCreated={handleConversationCreated} />  
         <Users onConversationCreated={handleConversationCreated} />
       </ConversationsList>
     </ChatContainer>

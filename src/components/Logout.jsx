@@ -23,9 +23,8 @@ const Logout = () => {
 export default Logout;
 
 export const Button = styled.button`
- padding: 1%;
- font-size: 0.8em;
- font-size: small;
+ padding: 2%;
+ font-size: 0.9em;
  font-weight: 100;
  height: min-content;
  margin-left: 2%;
